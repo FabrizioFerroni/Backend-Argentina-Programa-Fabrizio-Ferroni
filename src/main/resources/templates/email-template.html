@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<!--<html lang="es">-->
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body style="margin: 0px; padding: 0px; background-color: #f3f3f3; ">
+<div class="main" style="width: 60%; max-width: 728px; margin: 0 auto; display: block;">
+    <img src="https://i.imgur.com/4T3YrZw.png" class="img-banner" style="width: 100%; display: block;">
+    <div class="content" style="background-color: #fff; padding: 24px;">
+        <p>Hola <strong th:text="${userName}">  </strong></p>
+        <p>Este es un correo electrónico automatico mandado desde el portfolio de <a href="https://fabriziodev.ar" style="color: #000; text-decoration: none;">Fabrizio Dev</a>. Por que solicito que le ayudara a reestablecer la contraseña de su cuenta.</p>
+
+        <p>Para continuar haga clic en el siguiente botón:
+        <div class="center">
+            <p><a th:href="@{${url}}" style="cursor: pointer;"><button style="cursor: pointer; border: 0px; background-color: #9C9C9C; display: inline-block; color: #fff; padding: 12px; border-radius: 8px; text-decoration: none;"> Reestablecer
+                Contraseña</button></a></p>
+        </div>
+        <p>Si el botón anterior no le funciona, copie y pegue la siguiente url en su navegador:<br>
+        <a th:href="@{${url}}" target="_blank"  th:text="${url}" style="text-decoration: none;"></a></p>
+        <p></p>
+        <p style="text-align:left; font-size:11px; margin-top:0px;">Tenes 24hs para cambiar la clave, si no el token se caducira y tendra que volver a pedir uno.</p>
+    </div>
+</div>
+<p style="text-align:center; font-size:10px; margin-top:50px;"><span>Esta es una cuenta de correo no monitoreada. Su contenido es un mensaje automático generado por nuestro sistema. Por favor no responda a este correo. Si desea comunicarse con nosotros, responda a <a
+        href="mailto:soporte@fabriziodev.ar">soporte@fabriziodev.ar</a></span></p>
+</body>
+</html>

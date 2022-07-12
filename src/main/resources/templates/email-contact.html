@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<!--<html lang="es">-->
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Te han contactadodesde tu portfolio</title>
+</head>
+<body style="margin: 0px; padding: 0px; background-color: #f3f3f3; ">
+<div class="main" style="width: 60%; max-width: 728px; margin: 0 auto; display: block;">
+    <img src="https://i.imgur.com/4T3YrZw.png" class="img-banner" style="width: 100%; display: block;">
+    <div class="content" style="background-color: #fff; padding: 24px;">
+        <p>Hola Fabrizio, <strong th:text="${nombre}"></strong> se quiere comunicar con vos</span></p>
+       <p>
+        <p>Estos son sus datos: </p>
+
+
+        <li style="list-style-type: none; margin-bottom: 1rem;">Nombre: <span th:text="${nombre}"></span></li>
+        <li style="list-style-type: none; margin-bottom: 1rem;">Apellido: <span th:text="${apellido}"></span></li>
+        <li style="list-style-type: none; margin-bottom: 1rem;">Email: <span th:text="${email}"></span></li>
+        <li style="list-style-type: none; margin-bottom: 1rem;" th:if="${telefono != '' || telefono != null}">Telefono: <span th:text="${telefono}"></span></li>
+
+        <p>Y esta es su consulta: <br>
+            <span th:text="${mensaje}"></span>
+        </p>
+       </p>
+
+
+    </div>
+    <div style="text-align:center;">
+        <span style="text-align:center; font-size:14px; margin-top:50px;"> Este mail fue enviado desde <a th:href="@{${url}}" style="text-decoration: none;"><span th:text="${url}" style="color: #5c62ec;"></span></a> el dia <span th:text="${fecha}"></span> a la hora <span th:text="${hora}"></span>
+    </div>
+</div>
+</body>
+
+
+</html>

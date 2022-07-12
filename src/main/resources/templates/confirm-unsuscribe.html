@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<!--<html lang="es">-->
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body style="margin: 0px; padding: 0px; background-color: #f3f3f3; ">
+<div class="main" style="width: 60%; max-width: 728px; margin: 0 auto; display: block;">
+    <img src="https://i.imgur.com/4T3YrZw.png" class="img-banner" style="width: 100%; display: block;">
+    <div class="content" style="background-color: #fff; padding: 24px;">
+        <p>Hola <strong th:text="${nombre}"></strong>,</p>
+        <p>
+            Lamento haberte molestado con mis anuncios y novedades que fui sacando a lo largo de este tiempo que te suscribiste. Desde ahora ya no te llegara ningun mail mio.
+        </p>
+        <span>Te habias suscrito con el siguiente email: <span th:text="${email}" style="color: #5c62ec"></span></span>
+
+
+        <p>Por si desea volverse a suscribirse, le dejo el link de mi portfolio web: <br>
+        <a th:href="@{${url}}" target="_blank"  th:text="${url}" style="text-decoration: none;"></a></p>
+<!--            <a href="http://localhost:4200/" target="_blank"  th:text="${url}" style="text-decoration: none; padding-top: -50px;">http://localhost:4200/</a></p>-->
+        <p></p>
+    </div>
+</div>
+<p style="text-align:center; font-size:10px; margin-top:50px;"><span>Esta es una cuenta de correo no monitoreada. Su contenido es un mensaje automático generado por nuestro sistema. Por favor no responda a este correo. Si desea comunicarse con nosotros, responda a <a
+        href="mailto:soporte@fabriziodev.ar">soporte@fabriziodev.ar</a></span></p>
+</body>
+</html>

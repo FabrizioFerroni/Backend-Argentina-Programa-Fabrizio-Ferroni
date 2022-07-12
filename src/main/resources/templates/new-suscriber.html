@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<!--<html lang="es">-->
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body style="margin: 0px; padding: 0px; background-color: #f3f3f3; ">
+<div class="main" style="width: 60%; max-width: 728px; margin: 0 auto; display: block;">
+    <img src="https://i.imgur.com/4T3YrZw.png" class="img-banner" style="width: 100%; display: block;">
+    <div class="content" style="background-color: #fff; padding: 24px;">
+        <p>Hola <strong th:text="${nombre}"></strong></p>
+        <p>Gracias por suscribirte en mi portfolio web, por este medio te comunicare las nuevas novedades que vaya haciendo y/o subiendo a mi portfolio. Espero que mis ideas y proyectos sean de tu agrado.        </p>
+
+
+        <p>Si no desea seguir recibiendo mis novedades, por favor haz click en el siguiente link:<br>
+        <a th:href="@{${url}}" target="_blank"  th:text="${url}" style="text-decoration: none;"></a></p>
+        <p></p>
+    </div>
+</div>
+<p style="text-align:center; font-size:10px; margin-top:50px;"><span>Esta es una cuenta de correo no monitoreada. Su contenido es un mensaje automático generado por nuestro sistema. Por favor no responda a este correo. Si desea comunicarse con nosotros, responda a <a
+        href="mailto:soporte@fabriziodev.ar">soporte@fabriziodev.ar</a></span></p>
+</body>
+</html>
