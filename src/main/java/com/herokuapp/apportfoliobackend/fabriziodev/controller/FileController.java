@@ -6,10 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import org.springframework.core.io.Resource;
@@ -45,9 +42,15 @@ public class FileController {
     }
 
 
-    @GetMapping(value = "download/{controller}/{key}")
+  /*  @GetMapping(value = "download/{controller}/{key}")
     public ResponseEntity<Resource> download(@PathVariable("controller") String controller,@PathVariable("key") String key) {
         InputStreamResource resource  = new InputStreamResource(s3Service.downloadFile(controller, key));
         return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\""+key+"\"").body(resource);
+    }*/
+
+    @GetMapping(value = "download/{controller}/{key}", params = "nombre")
+    public ResponseEntity<Resource> download(@PathVariable("controller") String controller,@PathVariable("key") String key, @RequestParam String nombre) {
+        InputStreamResource resource  = new InputStreamResource(s3Service.downloadFile(controller, key));
+        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\""+nombre+"\"").body(resource);
     }
 }
