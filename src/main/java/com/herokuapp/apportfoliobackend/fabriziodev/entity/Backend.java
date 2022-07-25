@@ -33,8 +33,7 @@ public class Backend {
     @Column(nullable = false)
     @NotNull
     private LocalDateTime createdAt;
-    @Column(nullable = false)
-    @NotNull
+
     private LocalDateTime editedAt;
 
     public Backend() {
