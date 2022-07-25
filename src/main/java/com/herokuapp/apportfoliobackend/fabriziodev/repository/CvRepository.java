@@ -19,7 +19,7 @@ public interface CvRepository extends JpaRepository<Cv, Integer> {
     @Query(nativeQuery = true, value = "DELETE FROM download_cv WHERE cv_id=:id")
     void deletedown_cv(Integer id);
 
-    @Query(nativeQuery = true, value = "SELECT COUNT(*) FROM `download_cv` WHERE cv_id = :id")
+    @Query(nativeQuery = true, value = "SELECT CASE COUNT(*) = 1 THEN true ELSE false FROM `download_cv` WHERE cv_id = :id")
     boolean exitsindown_cv(Integer id);
 
 }
