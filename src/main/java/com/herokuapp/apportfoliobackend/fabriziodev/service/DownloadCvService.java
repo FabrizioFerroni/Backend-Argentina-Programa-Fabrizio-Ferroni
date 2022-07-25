@@ -43,6 +43,10 @@ public class DownloadCvService {
         downloadCvRepository.deleteById(id);
     }
 
+    public void borrardown_cv(Integer id) {
+        downloadCvRepository.deletedown_cv(id);
+    }
+
     public boolean existsById(int id){
         return downloadCvRepository.existsById(id);
     }

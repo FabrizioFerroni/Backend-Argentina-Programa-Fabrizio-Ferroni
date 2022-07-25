@@ -17,4 +17,8 @@ public interface DownloadCvRepository extends JpaRepository<DownloadCv, Integer>
 //    @Query(value = "SELECT * FROM download_cv WHERE usuario_id=:id;", nativeQuery=true)
     @Query(nativeQuery = true, value = "SELECT * FROM download_cv WHERE usuario_id=:id")
     List<DownloadCv> findByIdForUser(Integer id);
+
+    @Query(nativeQuery = true, value = "DELETE FROM download_cv WHERE cv_id=:id")
+    void deletedown_cv(Integer id);
+
 }

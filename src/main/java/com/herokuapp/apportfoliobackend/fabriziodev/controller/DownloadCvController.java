@@ -113,5 +113,16 @@ public class DownloadCvController {
         return new ResponseEntity(new Mensaje("Se elimino con exito el registro de quien descargo el cv"), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
+    @DeleteMapping("downloadCv/{id}/eliminarcv")
+    @ApiIgnore
+    public ResponseEntity<Integer> eliminarcv(@PathVariable("id") Integer id) throws Exception {
+        if (!downloadCvService.existsById(id)) {
+            return new ResponseEntity(new Mensaje("El id no es valido"), HttpStatus.BAD_REQUEST);
+        }
+        downloadCvService.borrardown_cv(id);
+        return new ResponseEntity(new Mensaje("Se elimino con exito los registros de quien descargo los cv"), HttpStatus.OK);
+    }
+
 
 }
