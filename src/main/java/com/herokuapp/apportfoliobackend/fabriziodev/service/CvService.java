@@ -55,6 +55,8 @@ public class CvService {
         return cvRepository.existsById(id);
     }
 
+    public boolean existsById_down(int id){ return cvRepository.exitsindown_cv(id);}
+
     public Resource load(String name) throws Exception {
         Path file = rootFolder.resolve(name);
         Resource resource = new UrlResource(file.toUri());
