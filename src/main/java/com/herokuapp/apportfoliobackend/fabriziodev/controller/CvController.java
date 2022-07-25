@@ -216,7 +216,15 @@ public class CvController {
     @GetMapping("test/{id}")
     @ApiIgnore
     public ResponseEntity<?> test(@PathVariable("id") Integer id){
-        return new ResponseEntity(cvService.existsById_down(id), HttpStatus.OK);
+
+        boolean boolValue;
+        if(cvService.existsById_down(id) >=1){
+            boolValue = true;
+        }else {
+            boolValue = false;
+        }
+        
+        return new ResponseEntity(boolValue, HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -236,9 +244,9 @@ public class CvController {
             System.out.println("CV Eliminado");
         }
 
-        if(cvService.existsById_down(id)){
+     /*   if(cvService.existsById_down(id)){
             cvService.borrardown_cv(id);
-        }
+        }*/
         cvService.borrar(id);
 
         return new ResponseEntity(new Mensaje("Se borro el cv"), HttpStatus.OK);
