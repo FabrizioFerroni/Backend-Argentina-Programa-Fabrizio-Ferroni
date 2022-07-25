@@ -3,6 +3,7 @@ package com.herokuapp.apportfoliobackend.fabriziodev.repository;
 import com.herokuapp.apportfoliobackend.fabriziodev.entity.DownloadCv;
 import com.herokuapp.apportfoliobackend.fabriziodev.security.entity.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -18,6 +19,8 @@ public interface DownloadCvRepository extends JpaRepository<DownloadCv, Integer>
     @Query(nativeQuery = true, value = "SELECT * FROM download_cv WHERE usuario_id=:id")
     List<DownloadCv> findByIdForUser(Integer id);
 
+
+    @Modifying
     @Query(nativeQuery = true, value = "DELETE FROM download_cv WHERE cv_id=:id")
     void deletedown_cv(Integer id);
 
