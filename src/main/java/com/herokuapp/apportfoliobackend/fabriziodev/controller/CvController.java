@@ -216,7 +216,7 @@ public class CvController {
     @GetMapping("test/{id}")
     @ApiIgnore
     public ResponseEntity<?> test(@PathVariable("id") Integer id){
-        return new ResponseEntity(cvService.existsById(id), HttpStatus.OK);
+        return new ResponseEntity(cvService.existsById_down(id), HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
