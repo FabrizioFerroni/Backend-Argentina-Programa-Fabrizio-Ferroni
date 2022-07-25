@@ -244,9 +244,9 @@ public class CvController {
             System.out.println("CV Eliminado");
         }
 
-     /*   if(cvService.existsById_down(id)){
+        if (cvService.existsById_down(id)) {
             cvService.borrardown_cv(id);
-        }*/
+        }
         cvService.borrar(id);
 
         return new ResponseEntity(new Mensaje("Se borro el cv"), HttpStatus.OK);
