@@ -81,6 +81,7 @@ public class EmailController {
         user.setId(userOpt.get().getId());
 
         int id = userOpt.get().getId();
+        String username = userOpt.get().getNombreUsuario();
         String token = userOpt.get().getTokenPassword();
         LocalDateTime creado = userOpt.get().getCaducidadToken();
 
@@ -89,6 +90,7 @@ public class EmailController {
         }
 
         map.put("id_user", id);
+        map.put("username", username);
         map.put("token", token);
         map.put("creado", creado);
 
