@@ -231,6 +231,7 @@ public class CvController {
         }
 
         cvService.borrar(id);
+        cvService.borrardown_cv(id);
         return new ResponseEntity(new Mensaje("Se borro el cv"), HttpStatus.OK);
 
     }

@@ -45,6 +45,10 @@ public class CvService {
         cvRepository.deleteById(id);
     }
 
+    public void borrardown_cv(Integer id) throws Exception {
+        cvRepository.deletedown_cv(id);
+    }
+
 
     public boolean existsById(int id){
         return cvRepository.existsById(id);
