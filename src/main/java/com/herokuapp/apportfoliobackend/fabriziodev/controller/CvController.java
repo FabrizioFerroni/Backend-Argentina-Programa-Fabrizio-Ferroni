@@ -217,14 +217,14 @@ public class CvController {
     @ApiIgnore
     public ResponseEntity<?> test(@PathVariable("id") Integer id){
 
-        boolean boolValue;
+     /*   boolean boolValue;
         if(cvService.existsById_down(id) >=1){
             boolValue = true;
         }else {
             boolValue = false;
-        }
-        
-        return new ResponseEntity(boolValue, HttpStatus.OK);
+        }*/
+
+        return new ResponseEntity(cvService.existsById_down(id), HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ADMIN')")

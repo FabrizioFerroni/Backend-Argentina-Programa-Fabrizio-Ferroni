@@ -55,8 +55,10 @@ public class CvService {
         return cvRepository.existsById(id);
     }
 
-    public int existsById_down(int id){
-        return  cvRepository.exitsindown_cv(id);
+    public boolean existsById_down(int id){
+        int exitid = cvRepository.exitsindown_cv(id);
+        boolean isTrue = (exitid != 0);
+        return isTrue;
     }
 
     public Resource load(String name) throws Exception {
