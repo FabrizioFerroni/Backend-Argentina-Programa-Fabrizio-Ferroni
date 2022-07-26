@@ -33,6 +33,10 @@ public class Cv {
 
     @Column(nullable = false)
     @NotNull
+    private String cvUrlMovil;
+
+    @Column(nullable = false)
+    @NotNull
     private String nombredown;
     @Column(nullable = false)
     @NotNull
@@ -46,12 +50,13 @@ public class Cv {
     public Cv() {
     }
 
-    public Cv(int id, String nombreCv, String descripcionCv, String cvNAME, String cvURL, String nombredown, Integer usuario_id, LocalDateTime createdAt, LocalDateTime editedAt) {
+    public Cv(int id, String nombreCv, String descripcionCv, String cvNAME, String cvURL, String cvUrlMovil, String nombredown, Integer usuario_id, LocalDateTime createdAt, LocalDateTime editedAt) {
         this.id = id;
         this.nombreCv = nombreCv;
         this.descripcionCv = descripcionCv;
         this.cvNAME = cvNAME;
         this.cvURL = cvURL;
+        this.cvUrlMovil = cvUrlMovil;
         this.nombredown = nombredown;
         this.usuario_id = usuario_id;
         this.createdAt = createdAt;

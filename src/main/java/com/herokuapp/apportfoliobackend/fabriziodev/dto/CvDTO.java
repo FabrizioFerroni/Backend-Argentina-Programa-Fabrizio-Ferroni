@@ -25,6 +25,10 @@ public class CvDTO {
 
     @Column(nullable = false)
     @NotNull
+    private String cvUrlMovil;
+
+    @Column(nullable = false)
+    @NotNull
     private String nombredown;
     @Column(nullable = false)
     @NotNull
@@ -33,11 +37,12 @@ public class CvDTO {
     public CvDTO() {
     }
 
-    public CvDTO(String nombreCv, String descripcionCv, String cvNAME, String cvURL, String nombredown, Integer usuario_id) {
+    public CvDTO(String nombreCv, String descripcionCv, String cvNAME, String cvURL, String cvUrlMovil, String nombredown, Integer usuario_id) {
         this.nombreCv = nombreCv;
         this.descripcionCv = descripcionCv;
         this.cvNAME = cvNAME;
         this.cvURL = cvURL;
+        this.cvUrlMovil = cvUrlMovil;
         this.nombredown = nombredown;
         this.usuario_id = usuario_id;
     }

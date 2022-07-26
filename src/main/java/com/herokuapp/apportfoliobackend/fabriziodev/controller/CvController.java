@@ -126,8 +126,10 @@ public class CvController {
                 String key = s3Service.putObject(dcv, nFn);
                 cv.setCvNAME(key);
 //                String urlIMG = s3Service.getUrlImg(key);
-                String urlIMG = host + "/file/download/" + key;
-                cv.setCvURL(urlIMG);
+                String urlPC = host + "/file/download/" + key;
+                String urlMovil = host + "/file/pdf/" + key;
+                cv.setCvURL(urlPC);
+                cv.setCvUrlMovil(urlMovil);
                 cv.setUsuario_id(usuario.getId());
             } else {
                 return new ResponseEntity(new Mensaje("Archivos no soportados por el servidor. Los archivos deberan ser del formato: PDF, DOCX, DOC. \nEstas mandando un archivo de esta extension: ." + ext), HttpStatus.BAD_REQUEST);
@@ -192,8 +194,10 @@ public class CvController {
                 String nFn = controllerPath + r + "_" + timeStamp + "_" + usuario.getId() + "_" + usuario.getNombreUsuario();
                 String key = s3Service.putObject(dcv, nFn);
                 cv.setCvNAME(key);
-                String urlIMG = host + "/file/download/" + key;
-                cv.setCvURL(urlIMG);
+                String urlPC = host + "/file/download/" + key;
+                String urlMovil = host + "/file/pdf/" + key;
+                cv.setCvURL(urlPC);
+                cv.setCvUrlMovil(urlMovil);
                 cv.setUsuario_id(usuario.getId());
             } else {
                 return new ResponseEntity(new Mensaje("Archivos no soportados por el servidor. Los archivos deberan ser del formato: PDF, DOCX, DOC. \nEstas mandando un archivo de esta extension: ." + ext), HttpStatus.BAD_REQUEST);

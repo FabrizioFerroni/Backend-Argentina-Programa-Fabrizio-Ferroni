@@ -42,6 +42,18 @@ public class FileController {
     }
 
 
+    @GetMapping(value = "pdf/{controller}/{key}")
+    ResponseEntity<ByteArrayResource> getpdf(@PathVariable("controller") String controller, @PathVariable("key") String key) {
+        Asset asset = s3Service.getImage(controller, key);
+        ByteArrayResource image = new ByteArrayResource(asset.getContent());
+
+        return ResponseEntity
+                .ok()
+                .header("Content-Type", asset.getContentType())
+                .contentLength(asset.getContent().length)
+                .body(image);
+    }
+
   /*  @GetMapping(value = "download/{controller}/{key}")
     public ResponseEntity<Resource> download(@PathVariable("controller") String controller,@PathVariable("key") String key) {
         InputStreamResource resource  = new InputStreamResource(s3Service.downloadFile(controller, key));
