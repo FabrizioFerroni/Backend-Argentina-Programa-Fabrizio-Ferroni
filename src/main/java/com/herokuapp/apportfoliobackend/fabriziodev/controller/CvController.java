@@ -226,7 +226,7 @@ public class CvController {
 
         if (cvNAME != null) {
             s3Service.deleteImage(cvNAME);
-            System.out.println("CV Eliminado");
+            System.out.println("CV Eliminado de amazon s3");
         }
 
         if (cvService.existsById_down(id)) {
