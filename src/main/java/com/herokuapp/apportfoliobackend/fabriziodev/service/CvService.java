@@ -49,8 +49,6 @@ public class CvService {
         cvRepository.deletedown_cv(id);
     }
 
-
-
     public boolean existsById(int id){
         return cvRepository.existsById(id);
     }
