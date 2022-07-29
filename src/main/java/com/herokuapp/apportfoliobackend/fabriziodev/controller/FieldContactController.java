@@ -50,9 +50,9 @@ public class FieldContactController {
     @PostMapping("fieldcontact")
     @ResponseBody
     public ResponseEntity<FieldContactDTO> nuevo(@Valid @RequestBody FieldContactDTO dto, Authentication authentication) throws Exception {
-        if (dto.getValueName() == null) {
+        /*if (dto.getValueName() == null) {
             return new ResponseEntity(new Mensaje("El value name es obligatorio"), HttpStatus.BAD_REQUEST);
-        }
+        }*/
 
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
@@ -61,12 +61,15 @@ public class FieldContactController {
         FieldContact fd = new FieldContact();
 
         fd.setValueName(dto.getValueName());
-        fd.setDataValue(dto.isDataValue());
+        fd.setTelValue(dto.isTelValue());
+        fd.setSubjectValue(dto.isSubjectValue());
         fd.setUsuarioId(usuario.getId());
         fd.setCreatedAt(LocalDateTime.now());
 
         fieldContactService.guardar(fd);
-        return new ResponseEntity(new Mensaje("Field contact guardado con éxito"), HttpStatus.OK);
+//        return new ResponseEntity(new Mensaje("Field contact guardado con éxito"), HttpStatus.OK);
+        return new ResponseEntity(fd, HttpStatus.OK);
+
     }
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -88,13 +91,15 @@ public class FieldContactController {
         FieldContact fd = new FieldContact();
         fd.setId(fieldContactService.listbyid(id).getId());
         fd.setValueName(dto.getValueName());
-        fd.setDataValue(dto.isDataValue());
+        fd.setTelValue(dto.isTelValue());
+        fd.setSubjectValue(dto.isSubjectValue());
         fd.setUsuarioId(usuario.getId());
         fd.setCreatedAt(fieldContactService.listbyid(id).getCreatedAt());
         fd.setEditedAt(LocalDateTime.now());
 
         fieldContactService.guardar(fd);
-        return new ResponseEntity(new Mensaje("Field contact editado con éxito"), HttpStatus.OK);
+//        return new ResponseEntity(new Mensaje("Field contact editado con éxito"), HttpStatus.OK);
+        return new ResponseEntity(fd, HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ADMIN')")

@@ -21,7 +21,11 @@ public class FieldContact {
 
     @Column(nullable = false)
     @NotNull
-    private boolean DataValue;
+    private boolean TelValue;
+
+    @Column(nullable = false)
+    @NotNull
+    private boolean SubjectValue;
 
     @Column(nullable = false)
     @NotNull
@@ -36,10 +40,11 @@ public class FieldContact {
     public FieldContact() {
     }
 
-    public FieldContact(int id, String valueName, boolean dataValue, int usuarioId, LocalDateTime createdAt, LocalDateTime editedAt) {
+    public FieldContact(int id, String valueName, boolean telValue, boolean subjectValue, int usuarioId, LocalDateTime createdAt, LocalDateTime editedAt) {
         this.id = id;
         this.ValueName = valueName;
-        this.DataValue = dataValue;
+        this.TelValue = telValue;
+        this.SubjectValue = subjectValue;
         this.UsuarioId = usuarioId;
         this.createdAt = createdAt;
         this.editedAt = editedAt;

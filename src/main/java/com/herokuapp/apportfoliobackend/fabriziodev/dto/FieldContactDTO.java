@@ -17,7 +17,11 @@ public class FieldContactDTO {
 
     @Column(nullable = false)
     @NotNull
-    private boolean DataValue;
+    private boolean TelValue;
+
+    @Column(nullable = false)
+    @NotNull
+    private boolean SubjectValue;
 
     @Column(nullable = false)
     @NotNull
@@ -32,9 +36,10 @@ public class FieldContactDTO {
     public FieldContactDTO() {
     }
 
-    public FieldContactDTO(String valueName, boolean dataValue, int usuarioId, LocalDateTime createdAt, LocalDateTime editedAt) {
+    public FieldContactDTO(String valueName, boolean telValue, boolean subjectValue, int usuarioId, LocalDateTime createdAt, LocalDateTime editedAt) {
         this.ValueName = valueName;
-        this.DataValue = dataValue;
+        this.TelValue = telValue;
+        this.SubjectValue = subjectValue;
         this.UsuarioId = usuarioId;
         this.createdAt = createdAt;
         this.editedAt = editedAt;
