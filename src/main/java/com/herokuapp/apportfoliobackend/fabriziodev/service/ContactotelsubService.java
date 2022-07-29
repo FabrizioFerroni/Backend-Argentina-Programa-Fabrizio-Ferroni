@@ -1,7 +1,7 @@
 package com.herokuapp.apportfoliobackend.fabriziodev.service;
 
-import com.herokuapp.apportfoliobackend.fabriziodev.entity.FieldContact;
-import com.herokuapp.apportfoliobackend.fabriziodev.repository.FieldContactRepository;
+import com.herokuapp.apportfoliobackend.fabriziodev.entity.Contactotelsub;
+import com.herokuapp.apportfoliobackend.fabriziodev.repository.ContactotelsubRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,20 +10,20 @@ import java.util.List;
 
 @Service
 @Transactional
-public class FieldContactService {
+public class ContactotelsubService {
     @Autowired
-    FieldContactRepository fdRepo;
+    ContactotelsubRepository fdRepo;
 
-    public List<FieldContact> listAll() {
+    public List<Contactotelsub> listAll() {
         return fdRepo.findAllByOrderByIdDesc();
     }
 
-    public FieldContact listbyid(Integer id) throws Exception {
-        FieldContact fd = fdRepo.findById(id).orElseThrow(() -> new Exception("El campo de contacto no existe"));
+    public Contactotelsub listbyid(Integer id) throws Exception {
+        Contactotelsub fd = fdRepo.findById(id).orElseThrow(() -> new Exception("El campo de contacto no existe"));
         return fd;
     }
 
-    public void guardar(FieldContact fd) {
+    public void guardar(Contactotelsub fd) {
         fdRepo.save(fd);
     }
 

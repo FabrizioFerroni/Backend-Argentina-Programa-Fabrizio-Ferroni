@@ -1,13 +1,12 @@
 package com.herokuapp.apportfoliobackend.fabriziodev.controller;
 
-import com.herokuapp.apportfoliobackend.fabriziodev.dto.FieldContactDTO;
+import com.herokuapp.apportfoliobackend.fabriziodev.dto.ContactotelsubDTO;
 import com.herokuapp.apportfoliobackend.fabriziodev.dto.Mensaje;
 import com.herokuapp.apportfoliobackend.fabriziodev.entity.Experiencia;
-import com.herokuapp.apportfoliobackend.fabriziodev.entity.FieldContact;
+import com.herokuapp.apportfoliobackend.fabriziodev.entity.Contactotelsub;
 import com.herokuapp.apportfoliobackend.fabriziodev.security.entity.Usuario;
 import com.herokuapp.apportfoliobackend.fabriziodev.security.service.UsuarioService;
-import com.herokuapp.apportfoliobackend.fabriziodev.service.FieldContactService;
-import io.swagger.annotations.ApiOperation;
+import com.herokuapp.apportfoliobackend.fabriziodev.service.ContactotelsubService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,32 +23,32 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/")
 @ApiIgnore
-public class FieldContactController {
+public class ContactotelsubController {
 
     @Autowired
-    FieldContactService fieldContactService;
+    ContactotelsubService ContactotelsubService;
 
     @Autowired
     UsuarioService usuarioService;
 
     @GetMapping("fieldcontact")
     @ResponseBody
-    public ResponseEntity<List<FieldContact>> listarTodos() {
-        List<FieldContact> list = fieldContactService.listAll();
+    public ResponseEntity<List<Contactotelsub>> listarTodos() {
+        List<Contactotelsub> list = ContactotelsubService.listAll();
         return new ResponseEntity(list, HttpStatus.OK);
     }
 
     @GetMapping("fieldcontact/{id}")
     @ResponseBody
     public ResponseEntity<Experiencia> listfdbyid(@PathVariable Integer id) throws Exception {
-        FieldContact fd = fieldContactService.listbyid(id);
+        Contactotelsub fd = ContactotelsubService.listbyid(id);
         return new ResponseEntity(fd, HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("fieldcontact")
     @ResponseBody
-    public ResponseEntity<FieldContactDTO> nuevo(@Valid @RequestBody FieldContactDTO dto, Authentication authentication) throws Exception {
+    public ResponseEntity<ContactotelsubDTO> nuevo(@Valid @RequestBody ContactotelsubDTO dto, Authentication authentication) throws Exception {
         /*if (dto.getValueName() == null) {
             return new ResponseEntity(new Mensaje("El value name es obligatorio"), HttpStatus.BAD_REQUEST);
         }*/
@@ -58,15 +57,15 @@ public class FieldContactController {
 
         Usuario usuario = usuarioService.getByNombreUsuario(userDetails.getUsername()).get();
 
-        FieldContact fd = new FieldContact();
+        Contactotelsub fd = new Contactotelsub();
 
-        fd.setValueName("contacto");
-        fd.setTelValue(dto.isTelValue());
-        fd.setSubjectValue(dto.isSubjectValue());
+        fd.setNameTelsub(dto.getNameTelsub());
+        fd.setOp1(dto.isOp1());
+        fd.setOp2(dto.isOp2());
         fd.setUsuarioId(usuario.getId());
         fd.setCreatedAt(LocalDateTime.now());
 
-        fieldContactService.guardar(fd);
+        ContactotelsubService.guardar(fd);
 //        return new ResponseEntity(new Mensaje("Field contact guardado con éxito"), HttpStatus.OK);
         return new ResponseEntity(fd, HttpStatus.OK);
 
@@ -75,12 +74,12 @@ public class FieldContactController {
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("fieldcontact/{id}/editar")
     @ResponseBody
-    public ResponseEntity<FieldContactDTO> edit(@PathVariable("id") int id, @Valid @RequestBody FieldContactDTO dto, Authentication authentication) throws Exception {
-        if (dto.getValueName() == null) {
-            return new ResponseEntity(new Mensaje("El value name es obligatorio"), HttpStatus.BAD_REQUEST);
+    public ResponseEntity<ContactotelsubDTO> edit(@PathVariable("id") int id, @Valid @RequestBody ContactotelsubDTO dto, Authentication authentication) throws Exception {
+        if (dto.getNameTelsub() == null) {
+            return new ResponseEntity(new Mensaje("El nombre es obligatorio"), HttpStatus.BAD_REQUEST);
         }
 
-        if (!fieldContactService.existsById(id)) {
+        if (!ContactotelsubService.existsById(id)) {
             return new ResponseEntity(new Mensaje("El id no es valido"), HttpStatus.BAD_REQUEST);
         }
 
@@ -88,16 +87,16 @@ public class FieldContactController {
 
         Usuario usuario = usuarioService.getByNombreUsuario(userDetails.getUsername()).get();
 
-        FieldContact fd = new FieldContact();
-        fd.setId(fieldContactService.listbyid(id).getId());
-        fd.setValueName(fieldContactService.listbyid(id).getValueName());
-        fd.setTelValue(dto.isTelValue());
-        fd.setSubjectValue(dto.isSubjectValue());
+        Contactotelsub fd = new Contactotelsub();
+        fd.setId(ContactotelsubService.listbyid(id).getId());
+        fd.setNameTelsub(dto.getNameTelsub());
+        fd.setOp1(dto.isOp1());
+        fd.setOp2(dto.isOp2());
         fd.setUsuarioId(usuario.getId());
-        fd.setCreatedAt(fieldContactService.listbyid(id).getCreatedAt());
+        fd.setCreatedAt(ContactotelsubService.listbyid(id).getCreatedAt());
         fd.setEditedAt(LocalDateTime.now());
 
-        fieldContactService.guardar(fd);
+        ContactotelsubService.guardar(fd);
 //        return new ResponseEntity(new Mensaje("Field contact editado con éxito"), HttpStatus.OK);
         return new ResponseEntity(fd, HttpStatus.OK);
     }
@@ -105,11 +104,11 @@ public class FieldContactController {
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("fieldcontact/{id}/eliminar")
     public ResponseEntity<Integer> eliminarExperiencia(@PathVariable("id") int id, Authentication authentication) throws Exception {
-        if (!fieldContactService.existsById(id)) {
+        if (!ContactotelsubService.existsById(id)) {
             return new ResponseEntity(new Mensaje("El id no es valido"), HttpStatus.BAD_REQUEST);
         }
 
-        fieldContactService.borrar(id);
+        ContactotelsubService.borrar(id);
         return new ResponseEntity(new Mensaje("Field contact eliminado con éxito"), HttpStatus.OK);
     }
 
