@@ -66,9 +66,7 @@ public class ContactotelsubController {
         fd.setCreatedAt(LocalDateTime.now());
 
         ContactotelsubService.guardar(fd);
-//        return new ResponseEntity(new Mensaje("Field contact guardado con éxito"), HttpStatus.OK);
-        return new ResponseEntity(fd, HttpStatus.OK);
-
+        return new ResponseEntity(new Mensaje("Field contact guardado con éxito"), HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -97,8 +95,7 @@ public class ContactotelsubController {
         fd.setEditedAt(LocalDateTime.now());
 
         ContactotelsubService.guardar(fd);
-//        return new ResponseEntity(new Mensaje("Field contact editado con éxito"), HttpStatus.OK);
-        return new ResponseEntity(fd, HttpStatus.OK);
+        return new ResponseEntity(new Mensaje("Field contact editado con éxito"), HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
