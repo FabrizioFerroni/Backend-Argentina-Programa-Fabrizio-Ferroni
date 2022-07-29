@@ -45,13 +45,13 @@ public class ContactotelsubController {
         return new ResponseEntity(fd, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('PROFESOR')")
     @PostMapping("fieldcontact")
     @ResponseBody
     public ResponseEntity<ContactotelsubDTO> nuevo(@Valid @RequestBody ContactotelsubDTO dto, Authentication authentication) throws Exception {
-        /*if (dto.getValueName() == null) {
-            return new ResponseEntity(new Mensaje("El value name es obligatorio"), HttpStatus.BAD_REQUEST);
-        }*/
+        if (dto.getNameTelsub() == null) {
+            return new ResponseEntity(new Mensaje("El nombre es obligatorio"), HttpStatus.BAD_REQUEST);
+        }
 
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
@@ -69,7 +69,7 @@ public class ContactotelsubController {
         return new ResponseEntity(new Mensaje("Field contact guardado con éxito"), HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('PROFESOR')")
     @PutMapping("fieldcontact/{id}/editar")
     @ResponseBody
     public ResponseEntity<ContactotelsubDTO> edit(@PathVariable("id") int id, @Valid @RequestBody ContactotelsubDTO dto, Authentication authentication) throws Exception {
@@ -98,7 +98,7 @@ public class ContactotelsubController {
         return new ResponseEntity(new Mensaje("Field contact editado con éxito"), HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('PROFESOR')")
     @DeleteMapping("fieldcontact/{id}/eliminar")
     public ResponseEntity<Integer> eliminarExperiencia(@PathVariable("id") int id, Authentication authentication) throws Exception {
         if (!ContactotelsubService.existsById(id)) {
