@@ -60,7 +60,7 @@ public class FieldContactController {
 
         FieldContact fd = new FieldContact();
 
-        fd.setValueName(dto.getValueName());
+        fd.setValueName("contacto");
         fd.setTelValue(dto.isTelValue());
         fd.setSubjectValue(dto.isSubjectValue());
         fd.setUsuarioId(usuario.getId());
@@ -90,7 +90,7 @@ public class FieldContactController {
 
         FieldContact fd = new FieldContact();
         fd.setId(fieldContactService.listbyid(id).getId());
-        fd.setValueName(dto.getValueName());
+        fd.setValueName(fieldContactService.listbyid(id).getValueName());
         fd.setTelValue(dto.isTelValue());
         fd.setSubjectValue(dto.isSubjectValue());
         fd.setUsuarioId(usuario.getId());
