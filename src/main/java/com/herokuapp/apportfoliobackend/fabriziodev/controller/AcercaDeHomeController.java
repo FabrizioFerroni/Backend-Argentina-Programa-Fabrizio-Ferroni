@@ -82,6 +82,35 @@ public class AcercaDeHomeController {
     @PostMapping("create/acdh")
     @ApiOperation(value = "Inserta un nuevo registro a la BD")
     public ResponseEntity<AcercaDeHomeDTO> nuevo(@Valid AcercaDeHomeDTO acercaDeHomeDTO, BindingResult result, @RequestParam("file") MultipartFile imagen, Authentication authentication) throws IOException, Exception {
+
+        if (result.hasErrors()) {
+            return new ResponseEntity(new Mensaje("Hubo un error al subir el acerca de home"), HttpStatus.BAD_REQUEST);
+        }
+
+        if (imagen.isEmpty()) {
+            return new ResponseEntity(new Mensaje("No se ha seleccionado ninguna imagen"), HttpStatus.BAD_REQUEST);
+        }
+
+        if (acercaDeHomeDTO.getTitulo() == null) {
+            return new ResponseEntity(new Mensaje("El titulo es obligatorio"), HttpStatus.BAD_REQUEST);
+        }
+
+        if (acercaDeHomeDTO.getDescripcion() == null) {
+            return new ResponseEntity(new Mensaje("La descripcion es obligatoria"), HttpStatus.BAD_REQUEST);
+        }
+
+        if (acercaDeHomeDTO.getDescripcion2() == null) {
+            return new ResponseEntity(new Mensaje("La descripcion es obligatoria"), HttpStatus.BAD_REQUEST);
+        }
+
+        if (acercaDeHomeDTO.getLink() == null) {
+            return new ResponseEntity(new Mensaje("El link es obligatorio"), HttpStatus.BAD_REQUEST);
+        }
+
+        if (imagen.getSize() > 5000000) {
+            return new ResponseEntity(new Mensaje("La imagen es demasiado grande"), HttpStatus.BAD_REQUEST);
+        }
+
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
         Usuario usuario = usuarioService.getByNombreUsuario(userDetails.getUsername()).get();

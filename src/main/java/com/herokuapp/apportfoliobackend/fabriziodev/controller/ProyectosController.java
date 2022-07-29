@@ -213,38 +213,38 @@ public class ProyectosController {
         Usuario usuario = usuarioService.getByNombreUsuario(userDetails.getUsername()).get();
 
         String imgNAME = proyectosService.getProyectobyid(id).getImagenName();
-        if (!(imgNAME == null)) {
+        if (imgNAME != null) {
             s3Service.deleteImage(imgNAME);
             System.out.println("Se elimino imagen para luego subir la nueva");
         }
-            if (!imagen.isEmpty()) {
-                String ext = FilenameUtils.getExtension(imagen.getOriginalFilename());
-                if (ext.equals("png") || ext.equals("jpg") || ext.equals("jpeg") || ext.equals("svg") || ext.equals("gif") || ext.equals("bmp") || ext.equals("webp")) {
-                    Random random = new Random();
-                    int r = random.nextInt(999);
-                    String timeStamp = new SimpleDateFormat("ddMMyyyy-HHmmss").format(Calendar.getInstance().getTime());
-                    String nFn = controllerPath + r + "_" + timeStamp + "_" + usuario.getId() + "_" + usuario.getNombreUsuario();
-                    String key = s3Service.putObject(imagen, nFn);
-                    proy.setImagenName(key);
-                    String urlIMG = s3Service.getUrlImg(key);
-                    proy.setImagenUrl(urlIMG);
-                    proy.setUsuario_id(usuario.getId());
-                } else {
-                    return new ResponseEntity(new Mensaje("Archivos no soportados por el servidor. Los archivos deberan ser del formato: BMP, GIF, JPG, JPEG, PNG, SVG, WEBP. \nEstas mandando un archivo de esta extension: ." + ext), HttpStatus.BAD_REQUEST);
-                }
+        if (!imagen.isEmpty()) {
+            String ext = FilenameUtils.getExtension(imagen.getOriginalFilename());
+            if (ext.equals("png") || ext.equals("jpg") || ext.equals("jpeg") || ext.equals("svg") || ext.equals("gif") || ext.equals("bmp") || ext.equals("webp")) {
+                Random random = new Random();
+                int r = random.nextInt(999);
+                String timeStamp = new SimpleDateFormat("ddMMyyyy-HHmmss").format(Calendar.getInstance().getTime());
+                String nFn = controllerPath + r + "_" + timeStamp + "_" + usuario.getId() + "_" + usuario.getNombreUsuario();
+                String key = s3Service.putObject(imagen, nFn);
+                proy.setImagenName(key);
+                String urlIMG = s3Service.getUrlImg(key);
+                proy.setImagenUrl(urlIMG);
+                proy.setUsuario_id(usuario.getId());
+            } else {
+                return new ResponseEntity(new Mensaje("Archivos no soportados por el servidor. Los archivos deberan ser del formato: BMP, GIF, JPG, JPEG, PNG, SVG, WEBP. \nEstas mandando un archivo de esta extension: ." + ext), HttpStatus.BAD_REQUEST);
             }
+        }
 
-            proy.setTitulo(proyDto.getTitulo());
-            proy.setDescripcion(proyDto.getDescripcion());
-            proy.setCreatedAt(proyectosService.getProyectobyid(id).getCreatedAt());
-            proy.setCreado(proyectosService.getProyectobyid(id).getCreado());
-            proy.setLink_demo(proyDto.getLink_demo());
-            proy.setLink_github(proyDto.getLink_github());
-            proy.setEditedAt(LocalDateTime.now());
-            proy.setSubtitulo(proyDto.getSubtitulo());
+        proy.setTitulo(proyDto.getTitulo());
+        proy.setDescripcion(proyDto.getDescripcion());
+        proy.setCreatedAt(proyectosService.getProyectobyid(id).getCreatedAt());
+        proy.setCreado(proyectosService.getProyectobyid(id).getCreado());
+        proy.setLink_demo(proyDto.getLink_demo());
+        proy.setLink_github(proyDto.getLink_github());
+        proy.setEditedAt(LocalDateTime.now());
+        proy.setSubtitulo(proyDto.getSubtitulo());
 
-            proyectosService.guardar(proy);
-            return new ResponseEntity(new Mensaje("Se edito correctamente"), HttpStatus.OK);
+        proyectosService.guardar(proy);
+        return new ResponseEntity(new Mensaje("Se edito correctamente"), HttpStatus.OK);
 
     }
 
@@ -261,14 +261,13 @@ public class ProyectosController {
         Proyectos proy = proyectosService.getProyectobyid(id);
         String imgNAME = proy.getImagenName();
 
-        if (imgNAME == null) {
-            proyectosService.borrar(id);
-            return new ResponseEntity(new Mensaje("El proyecto fue eliminado"), HttpStatus.OK);
-        } else {
+        if (imgNAME != null) {
             s3Service.deleteImage(imgNAME);
-            proyectosService.borrar(id);
-            return new ResponseEntity(new Mensaje("El proyecto fue eliminado"), HttpStatus.OK);
+            System.out.println("Imagen eliminada");
         }
+
+        proyectosService.borrar(id);
+        return new ResponseEntity(new Mensaje("El proyecto fue eliminado"), HttpStatus.OK);
 
     }
 

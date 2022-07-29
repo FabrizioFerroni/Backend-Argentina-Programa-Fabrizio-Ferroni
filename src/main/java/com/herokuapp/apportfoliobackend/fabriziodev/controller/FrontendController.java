@@ -52,7 +52,7 @@ public class FrontendController {
     @ApiOperation(value = "Inserta un nuevo registro a la BD")
     public ResponseEntity<FrontendDTO> nuevo(@Valid @RequestBody FrontendDTO frontDto, BindingResult result, Authentication authentication) throws Exception {
         if (result.hasErrors()) {
-            return new ResponseEntity(new Mensaje("Hubo un error al subir el cv"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new Mensaje("Hubo un error al subir el lenguaje de frontend"), HttpStatus.BAD_REQUEST);
         }
 
         if(frontDto.getNombre() == null) {
@@ -89,7 +89,7 @@ public class FrontendController {
     @ApiOperation(value = "Actualiza un registro en la BD segun su id")
     public ResponseEntity<FrontendDTO> editar(@PathVariable("id") int id, @Valid @RequestBody FrontendDTO frontDto, BindingResult result, Authentication authentication) throws Exception {
         if (result.hasErrors()) {
-            return new ResponseEntity(new Mensaje("Hubo un error al subir el cv"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new Mensaje("Hubo un error al subir el lenguaje de frontend"), HttpStatus.BAD_REQUEST);
         }
 
         if(frontDto.getNombre() == null) {

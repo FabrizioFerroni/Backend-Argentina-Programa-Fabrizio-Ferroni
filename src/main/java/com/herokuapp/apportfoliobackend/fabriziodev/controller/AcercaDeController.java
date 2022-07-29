@@ -75,7 +75,7 @@ public class AcercaDeController {
     @PostMapping("/acercade")
     public ResponseEntity<AcercaDeDTO> nuevo(@Valid AcercaDeDTO acercaDeDTO, BindingResult result, @RequestParam("file") MultipartFile imagen, Authentication authentication) throws IOException, Exception {
         if (result.hasErrors()) {
-            return new ResponseEntity(new Mensaje("Hubo un error al subir el acerca de home"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new Mensaje("Hubo un error al subir el acerca de"), HttpStatus.BAD_REQUEST);
         }
 
         if (acercaDeDTO.getTitulo() == null) {
@@ -84,6 +84,10 @@ public class AcercaDeController {
 
         if (acercaDeDTO.getDescripcion() == null) {
             return new ResponseEntity(new Mensaje("La descripcion es obligatoria"), HttpStatus.BAD_REQUEST);
+        }
+
+        if (acercaDeDTO.getEmail() == null) {
+            return new ResponseEntity(new Mensaje("El email es obligatorio"), HttpStatus.BAD_REQUEST);
         }
 
         if (imagen.getSize() > 5000000) {
@@ -131,21 +135,6 @@ public class AcercaDeController {
     @PreAuthorize("hasRole('PROFESOR')")
     @PutMapping("/acercade/{id}/editar")
     public ResponseEntity<AcercaDeDTO> editACD(@PathVariable("id") Integer id, @Valid AcercaDeDTO acdDto, BindingResult result, @RequestParam("file") MultipartFile imagen, Authentication authentication) throws IOException, Exception {
-        if (result.hasErrors()) {
-            return new ResponseEntity(new Mensaje("Hubo un error al subir el acerca de home"), HttpStatus.BAD_REQUEST);
-        }
-
-        if (acdDto.getTitulo() == null) {
-            return new ResponseEntity(new Mensaje("El titulo es obligatorio"), HttpStatus.BAD_REQUEST);
-        }
-
-        if (acdDto.getDescripcion() == null) {
-            return new ResponseEntity(new Mensaje("La descripcion es obligatoria"), HttpStatus.BAD_REQUEST);
-        }
-
-        if (imagen.getSize() > 5000000) {
-            return new ResponseEntity(new Mensaje("La imagen es demasiado grande"), HttpStatus.BAD_REQUEST);
-        }
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
         Usuario usuario = usuarioService.getByNombreUsuario(userDetails.getUsername()).get();
@@ -159,7 +148,7 @@ public class AcercaDeController {
         }
 
         if (result.hasErrors()) {
-            return new ResponseEntity(new Mensaje("Hubo un error al subir el acerca de home"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new Mensaje("Hubo un error al subir el acerca de "), HttpStatus.BAD_REQUEST);
         }
 
         if (acdDto.getTitulo() == null) {

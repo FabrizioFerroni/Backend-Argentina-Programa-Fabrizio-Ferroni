@@ -74,7 +74,7 @@ public class HabilidadController {
     @ApiOperation(value = "Inserta un nuevo registro a la BD")
     public ResponseEntity<HabilidadDTO> nuevo(@Valid HabilidadDTO habDTO, BindingResult result, @RequestParam("file") MultipartFile imagen, Authentication authentication) throws IOException, Exception {
         if (result.hasErrors()) {
-            return new ResponseEntity(new Mensaje("Hubo un error al subir el acerca de home"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new Mensaje("Hubo un error al subir la habilidad"), HttpStatus.BAD_REQUEST);
         }
 
         if (habDTO.getTitulo() == null) {
@@ -142,7 +142,7 @@ public class HabilidadController {
         }
 
         if (result.hasErrors()) {
-            return new ResponseEntity(new Mensaje("Hubo un error al subir el acerca de home"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new Mensaje("Hubo un error al subir la habilidad"), HttpStatus.BAD_REQUEST);
         }
 
         if (habDto.getTitulo() == null) {

@@ -53,7 +53,7 @@ public class ExperienciaController {
     @ApiOperation(value = "Inserta un nuevo registro a la BD")
     public ResponseEntity<ExperienciaDTO> newExperience(@Valid @RequestBody ExperienciaDTO expdto, BindingResult result, Authentication authentication) throws Exception {
         if (result.hasErrors()) {
-            return new ResponseEntity(new Mensaje("Hubo un error al subir el cv"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new Mensaje("Hubo un error al subir la experiencia"), HttpStatus.BAD_REQUEST);
         }
 
         if(expdto.getTitulo() == null) {

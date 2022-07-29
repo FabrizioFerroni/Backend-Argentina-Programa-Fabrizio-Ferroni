@@ -76,7 +76,7 @@ public class ServiciosController {
             return new ResponseEntity(new Mensaje("La imagen es demasiado grande"), HttpStatus.BAD_REQUEST);
         }
         if (result.hasErrors()) {
-            return new ResponseEntity(new Mensaje("Hubo un error al crear el header"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new Mensaje("Hubo un error al crear el servicio"), HttpStatus.BAD_REQUEST);
         }
 
         if (servDto.getTitulo() == null || servDto.getTitulo().isEmpty()) {

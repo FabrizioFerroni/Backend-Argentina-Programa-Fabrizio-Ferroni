@@ -51,7 +51,7 @@ public class BackendController {
     @ApiOperation(value = "Inserta un nuevo registro a la BD")
     public ResponseEntity<BackendDTO> nuevo(@Valid @RequestBody BackendDTO backDto, BindingResult result, Authentication authentication) throws Exception {
         if (result.hasErrors()) {
-            return new ResponseEntity(new Mensaje("Hubo un error al subir el cv"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new Mensaje("Hubo un error al subir el lenguaje del backend"), HttpStatus.BAD_REQUEST);
         }
 
         if(backDto.getNombre() == null) {
@@ -88,7 +88,7 @@ public class BackendController {
     @ApiOperation(value = "Actualiza un registro en la bd segun su id")
     public ResponseEntity<BackendDTO> editar(@PathVariable("id") int id, @Valid @RequestBody BackendDTO backDto, BindingResult result, Authentication authentication) throws Exception {
         if (result.hasErrors()) {
-            return new ResponseEntity(new Mensaje("Hubo un error al subir el cv"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new Mensaje("Hubo un error al subir el lenguaje del backend"), HttpStatus.BAD_REQUEST);
         }
 
         if(backDto.getNombre() == null) {

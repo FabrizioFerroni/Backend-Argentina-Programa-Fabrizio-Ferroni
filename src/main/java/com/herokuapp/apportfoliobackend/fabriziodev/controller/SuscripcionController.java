@@ -136,8 +136,6 @@ public class SuscripcionController {
     public ResponseEntity<Suscripcion> borrarSusc(@PathVariable("id") Integer id, Suscripcion suss) throws Exception {
         if (susService.existsById(id)) {
             susService.borrar(id);
-
-
             return new ResponseEntity(new Mensaje("Tu suscripción se ha borrado con éxito"), HttpStatus.OK);
         } else {
             return new ResponseEntity(new Mensaje("El suscriptor no existe"), HttpStatus.BAD_REQUEST);
