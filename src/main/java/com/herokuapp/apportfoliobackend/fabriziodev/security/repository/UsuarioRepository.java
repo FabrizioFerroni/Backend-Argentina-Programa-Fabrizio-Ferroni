@@ -19,7 +19,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
 
     boolean existsByEmail(String email);
 
-    boolean isActiveUser_verify(boolean activeUser);
+//    boolean isActiveUser_verify(boolean activeUser);
 
 
 }

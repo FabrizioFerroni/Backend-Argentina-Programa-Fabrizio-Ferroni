@@ -75,9 +75,9 @@ public class UsuarioService {
         return usuarioRepository.existsByNombreUsuario(nombreUsuario);
     }
 
-    public boolean existsByVerfifyUser(boolean activeUser){
+  /*  public boolean existsByVerfifyUser(boolean activeUser){
         return usuarioRepository.isActiveUser_verify(activeUser);
-    }
+    }*/
 
     public boolean existsByEmail(String email){
         return usuarioRepository.existsByEmail(email);
