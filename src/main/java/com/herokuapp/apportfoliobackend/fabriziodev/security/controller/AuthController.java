@@ -12,6 +12,7 @@ import com.herokuapp.apportfoliobackend.fabriziodev.security.service.RolService;
 import com.herokuapp.apportfoliobackend.fabriziodev.security.service.UsuarioService;
 import com.herokuapp.apportfoliobackend.fabriziodev.service.S3Service;
 import io.swagger.annotations.ApiOperation;
+import net.bytebuddy.utility.RandomString;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -167,9 +168,11 @@ public class AuthController {
         usuario.setRoles(roles);
 
         UUID uuid = UUID.randomUUID();
+        String randomCode = RandomString.make(64);
         String verifyToken = uuid.toString();
         String url = host + "/iniciarsesion/verificarusuario/" + verifyToken;
-        usuario.setVerifyPassword(verifyToken);
+//        usuario.setVerifyPassword(verifyToken);
+        usuario.setVerifyPassword(randomCode);
         usuario.setActiveUser(false);
         nuevoUsuario.setMailTo(nuevoUsuario.getEmail());
         nuevoUsuario.setNombre(nuevoUsuario.getNombre());
@@ -244,15 +247,16 @@ public class AuthController {
 
 
 //        if (usuarioService.existsByVerfifyUser(userOpt.get().isActiveUser())) {
+        if (usuarioService.getByNombreUsuario(loginUsuario.getNombreUsuario()).get().isActiveUser()) {
             Authentication authentication =
                     authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginUsuario.getNombreUsuario(), loginUsuario.getPassword()));
             SecurityContextHolder.getContext().setAuthentication(authentication);
             String jwt = jwtProvider.generateToken(authentication);
             JwtDto jwtDto = new JwtDto(jwt);
             return new ResponseEntity(jwtDto, HttpStatus.OK);
-        /*} else {
+        } else {
             return new ResponseEntity(new Mensaje("La cuenta de usuario no fue verificada"), HttpStatus.BAD_REQUEST);
-        }*/
+        }
     }
 
     @PostMapping("/refresh")
