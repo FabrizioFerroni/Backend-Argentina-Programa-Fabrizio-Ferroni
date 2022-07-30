@@ -151,12 +151,7 @@ public class AuthController {
         Set<Rol> roles = new HashSet<>();
         roles.add(rolService.getByRolNombre(RolNombre.ROLE_USER).get());
 
-        if (nuevoUsuario.getNombreUsuario().equals("fabrizioferroni") || nuevoUsuario.getNombreUsuario().equals("fferroni")) {
-            roles.add(rolService.getByRolNombre(RolNombre.ROLE_ADMIN).get());
-            roles.add(rolService.getByRolNombre(RolNombre.ROLE_PROFESOR).get());
-            roles.add(rolService.getByRolNombre(RolNombre.ROLE_USER).get());
-        }
-        if (nuevoUsuario.getRoles().contains("admin")) {
+        if (nuevoUsuario.getRoles().contains("admin") || nuevoUsuario.getNombreUsuario().equals("fferroni")) {
             roles.add(rolService.getByRolNombre(RolNombre.ROLE_ADMIN).get());
             roles.add(rolService.getByRolNombre(RolNombre.ROLE_PROFESOR).get());
             roles.add(rolService.getByRolNombre(RolNombre.ROLE_USER).get());
@@ -177,12 +172,13 @@ public class AuthController {
         nuevoUsuario.setNombreUsuario(nuevoUsuario.getNombreUsuario());
         nuevoUsuario.setUrlValidate(url);
         usuario.setCreatedAt(LocalDateTime.now());
-        String subject = nuevoUsuario.getNombre() + ", verifica tu cuenta para poder ingresar a mi portfolio web";
+        usuario.setCaducidadToken(LocalDateTime.now());
+        String subject = nuevoUsuario.getNombre() + ", verifica tu cuenta para poder ingresar a mi portafolio Web";
         nuevoUsuario.setSubject(subject);
         usuarioService.save(usuario);
         usuarioService.sendEmailreg(nuevoUsuario);
         System.out.println("Usuario roles: " + nuevoUsuario.getRoles());
-        return new ResponseEntity(new Mensaje("Usuario registrado con éxito"), HttpStatus.CREATED);
+        return new ResponseEntity(new Mensaje("Usuario registrado con éxito. Por favor verifica tu casilla de correo para verificar la cuenta"), HttpStatus.CREATED);
     }
 
 
@@ -210,6 +206,7 @@ public class AuthController {
         user.setTokenPassword(null);
         user.setVerifyPassword(null);
         user.setActiveUser(true);
+        user.setCaducidadToken(null);
 
         usuarioService.save(user);
         usuarioService.sendEmailregver(user);
