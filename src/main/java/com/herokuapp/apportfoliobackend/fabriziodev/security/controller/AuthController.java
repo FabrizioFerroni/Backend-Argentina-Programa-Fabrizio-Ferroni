@@ -240,19 +240,19 @@ public class AuthController {
             return new ResponseEntity(new Mensaje("El nombre de usuario o la contraseña ingresada no son correctos"), HttpStatus.BAD_REQUEST);
         }
 
-        Optional<Usuario> userOpt = usuarioService.getByNombreUsuario(loginUsuario.getNombreUsuario());
+//        Optional<Usuario> userOpt = usuarioService.getByNombreUsuario(loginUsuario.getNombreUsuario());
 
 
-        if (usuarioService.existsByVerfifyUser(userOpt.get().isActiveUser())) {
+//        if (usuarioService.existsByVerfifyUser(userOpt.get().isActiveUser())) {
             Authentication authentication =
                     authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginUsuario.getNombreUsuario(), loginUsuario.getPassword()));
             SecurityContextHolder.getContext().setAuthentication(authentication);
             String jwt = jwtProvider.generateToken(authentication);
             JwtDto jwtDto = new JwtDto(jwt);
             return new ResponseEntity(jwtDto, HttpStatus.OK);
-        } else {
+        /*} else {
             return new ResponseEntity(new Mensaje("La cuenta de usuario no fue verificada"), HttpStatus.BAD_REQUEST);
-        }
+        }*/
     }
 
     @PostMapping("/refresh")
