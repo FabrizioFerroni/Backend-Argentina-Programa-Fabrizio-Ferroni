@@ -100,17 +100,43 @@ public class UsuarioService {
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
             Context context = new Context();
             Map<String, Object> model = new HashMap<>();
-            String url = urlFront + "/iniciarsesion";
             model.put("nombre", dto.getNombre());
             model.put("apellido", dto.getApellido());
-            model.put("email", dto.getMailTo());
-            model.put("userName", dto.getNombreUsuario());
-            model.put("url", url);
+            model.put("url", dto.getUrlValidate());
             context.setVariables(model);
             String htmlText = templateEngine.process("register-template", context);
             helper.setFrom(new InternetAddress(mailFrom, name));
             helper.setTo(dto.getMailTo());
             helper.setSubject(dto.getSubject());
+            helper.setText(htmlText, true);
+
+            javaMailSender.send(message);
+        }catch (MessagingException e){
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    public void sendEmailregver(Usuario dto) {
+        MimeMessage message = javaMailSender.createMimeMessage();
+        try {
+            MimeMessageHelper helper = new MimeMessageHelper(message, true);
+            Context context = new Context();
+            Map<String, Object> model = new HashMap<>();
+            String url = urlFront + "/iniciarsesion";
+            String subject = dto.getNombre() + ", te has registrado con éxito en mi portfolio web";
+            model.put("nombre", dto.getNombre());
+            model.put("apellido", dto.getApellido());
+            model.put("email", dto.getEmail());
+            model.put("userName", dto.getNombreUsuario());
+            model.put("url", url);
+            context.setVariables(model);
+            String htmlText = templateEngine.process("verify-complete", context);
+            helper.setFrom(new InternetAddress(mailFrom, name));
+            helper.setTo(dto.getEmail());
+            helper.setSubject(subject);
             helper.setText(htmlText, true);
 
             javaMailSender.send(message);

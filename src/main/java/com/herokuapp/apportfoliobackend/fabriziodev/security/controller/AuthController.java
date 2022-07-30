@@ -167,11 +167,8 @@ public class AuthController {
         }
         usuario.setRoles(roles);
 
-        UUID uuid = UUID.randomUUID();
         String randomCode = RandomString.make(64);
-        String verifyToken = uuid.toString();
-        String url = host + "/iniciarsesion/verificarusuario/" + verifyToken;
-//        usuario.setVerifyPassword(verifyToken);
+        String url = host + "/iniciarsesion/verificarusuario/" + randomCode;
         usuario.setVerifyPassword(randomCode);
         usuario.setActiveUser(false);
         nuevoUsuario.setMailTo(nuevoUsuario.getEmail());
@@ -180,7 +177,7 @@ public class AuthController {
         nuevoUsuario.setNombreUsuario(nuevoUsuario.getNombreUsuario());
         nuevoUsuario.setUrlValidate(url);
         usuario.setCreatedAt(LocalDateTime.now());
-        String subject = nuevoUsuario.getNombre() + ", te has registrado con éxito en mi portfolio web";
+        String subject = nuevoUsuario.getNombre() + ", verifica tu cuenta para poder ingresar a mi portfolio web";
         nuevoUsuario.setSubject(subject);
         usuarioService.save(usuario);
         usuarioService.sendEmailreg(nuevoUsuario);
@@ -215,8 +212,9 @@ public class AuthController {
         user.setActiveUser(true);
 
         usuarioService.save(user);
+        usuarioService.sendEmailregver(user);
 
-        return new ResponseEntity("Cuenta verificada con éxito", HttpStatus.OK);
+        return new ResponseEntity(new Mensaje("Cuenta verificada con éxito"), HttpStatus.OK);
     }
 
     @PostMapping("/iniciarsesion")
@@ -243,10 +241,6 @@ public class AuthController {
             return new ResponseEntity(new Mensaje("El nombre de usuario o la contraseña ingresada no son correctos"), HttpStatus.BAD_REQUEST);
         }
 
-//        Optional<Usuario> userOpt = usuarioService.getByNombreUsuario(loginUsuario.getNombreUsuario());
-
-
-//        if (usuarioService.existsByVerfifyUser(userOpt.get().isActiveUser())) {
         if (usuarioService.getByNombreUsuario(loginUsuario.getNombreUsuario()).get().isActiveUser()) {
             Authentication authentication =
                     authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginUsuario.getNombreUsuario(), loginUsuario.getPassword()));
