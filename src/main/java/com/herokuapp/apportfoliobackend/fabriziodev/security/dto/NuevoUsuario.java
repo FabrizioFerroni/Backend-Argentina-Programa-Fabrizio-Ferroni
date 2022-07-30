@@ -31,6 +31,8 @@ public class NuevoUsuario {
 
     private LocalDateTime editedAt;
 
+    private String urlValidate;
+
     public String getNombre() {
         return nombre;
     }
@@ -125,5 +127,13 @@ public class NuevoUsuario {
 
     public void setEditedAt(LocalDateTime editedAt) {
         this.editedAt = editedAt;
+    }
+
+    public String getUrlValidate() {
+        return urlValidate;
+    }
+
+    public void setUrlValidate(String urlValidate) {
+        this.urlValidate = urlValidate;
     }
 }

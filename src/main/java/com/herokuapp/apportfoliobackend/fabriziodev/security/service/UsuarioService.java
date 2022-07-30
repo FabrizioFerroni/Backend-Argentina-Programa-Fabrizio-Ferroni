@@ -66,8 +66,17 @@ public class UsuarioService {
         return usuarioRepository.findByTokenPassword(tokenPassword);
     }
 
+    public Optional<Usuario> getByVerifyPassword(String verifyPassword){
+        return usuarioRepository.findByverifyPassword(verifyPassword);
+    }
+
+
     public boolean existsByNombreUsuario(String nombreUsuario){
         return usuarioRepository.existsByNombreUsuario(nombreUsuario);
+    }
+
+    public boolean existsByVerfifyUser(boolean activeUser){
+        return usuarioRepository.isActiveUser_verify(activeUser);
     }
 
     public boolean existsByEmail(String email){

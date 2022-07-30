@@ -28,6 +28,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
 import java.io.IOException;
@@ -58,6 +59,9 @@ public class AuthController {
     //    Variables
     @Value("${web.upload-path-images-usuarios}")
     private String controllerPath;
+
+    @Value("${hostfront.dns}")
+    private String host;
 
     @Autowired
     S3Service s3Service;
@@ -162,10 +166,16 @@ public class AuthController {
         }
         usuario.setRoles(roles);
 
+        UUID uuid = UUID.randomUUID();
+        String verifyToken = uuid.toString();
+        String url = host + "/iniciarsesion/verificarusuario/" + verifyToken;
+        usuario.setVerifyPassword(verifyToken);
+        usuario.setActiveUser(false);
         nuevoUsuario.setMailTo(nuevoUsuario.getEmail());
         nuevoUsuario.setNombre(nuevoUsuario.getNombre());
         nuevoUsuario.setApellido(nuevoUsuario.getApellido());
         nuevoUsuario.setNombreUsuario(nuevoUsuario.getNombreUsuario());
+        nuevoUsuario.setUrlValidate(url);
         usuario.setCreatedAt(LocalDateTime.now());
         String subject = nuevoUsuario.getNombre() + ", te has registrado con éxito en mi portfolio web";
         nuevoUsuario.setSubject(subject);
@@ -175,6 +185,36 @@ public class AuthController {
         return new ResponseEntity(new Mensaje("Usuario registrado con éxito"), HttpStatus.CREATED);
     }
 
+
+    @GetMapping("/verifyuser/{token}")
+    @ApiIgnore
+    ResponseEntity<?> activeuser(@PathVariable String token) {
+        Optional<Usuario> userOpt = usuarioService.getByVerifyPassword(token);
+        if (!userOpt.isPresent()) {
+            return new ResponseEntity(new Mensaje("El token no existe o ya fue verificada la cuenta"), HttpStatus.NOT_FOUND);
+        }
+
+        Usuario user = new Usuario();
+        user.setId(userOpt.get().getId());
+        user.setNombre(userOpt.get().getNombre());
+        user.setApellido(userOpt.get().getApellido());
+        user.setEmail(userOpt.get().getEmail());
+        user.setNombreUsuario(userOpt.get().getNombreUsuario());
+        user.setPassword(userOpt.get().getPassword());
+        user.setAvatar(userOpt.get().getAvatar());
+        user.setCreatedAt(userOpt.get().getCreatedAt());
+        user.setEditedAt(userOpt.get().getEditedAt());
+        user.setImagenName(userOpt.get().getImagenName());
+        user.setRoles(userOpt.get().getRoles());
+        user.setCaducidadToken(null);
+        user.setTokenPassword(null);
+        user.setVerifyPassword(null);
+        user.setActiveUser(true);
+
+        usuarioService.save(user);
+
+        return new ResponseEntity("Cuenta verificada con éxito", HttpStatus.OK);
+    }
 
     @PostMapping("/iniciarsesion")
     @ApiOperation(value = "Metodo login para autenticar al usuario")
@@ -200,12 +240,19 @@ public class AuthController {
             return new ResponseEntity(new Mensaje("El nombre de usuario o la contraseña ingresada no son correctos"), HttpStatus.BAD_REQUEST);
         }
 
-        Authentication authentication =
-                authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginUsuario.getNombreUsuario(), loginUsuario.getPassword()));
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt = jwtProvider.generateToken(authentication);
-        JwtDto jwtDto = new JwtDto(jwt);
-        return new ResponseEntity(jwtDto, HttpStatus.OK);
+        Optional<Usuario> userOpt = usuarioService.getByNombreUsuario(loginUsuario.getNombreUsuario());
+
+
+        if (usuarioService.existsByVerfifyUser(userOpt.get().isActiveUser())) {
+            Authentication authentication =
+                    authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginUsuario.getNombreUsuario(), loginUsuario.getPassword()));
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            String jwt = jwtProvider.generateToken(authentication);
+            JwtDto jwtDto = new JwtDto(jwt);
+            return new ResponseEntity(jwtDto, HttpStatus.OK);
+        } else {
+            return new ResponseEntity(new Mensaje("La cuenta de usuario no fue verificada"), HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PostMapping("/refresh")
@@ -289,6 +336,8 @@ public class AuthController {
         user.setRoles(usuarioService.getUserbyid(id).getRoles());
         user.setTokenPassword(usuarioService.getUserbyid(id).getTokenPassword());
         user.setCaducidadToken(usuarioService.getUserbyid(id).getCaducidadToken());
+        user.setVerifyPassword(usuarioService.getUserbyid(id).getVerifyPassword());
+        user.setActiveUser(usuarioService.getUserbyid(id).isActiveUser()); //true
 
         usuarioService.save(user);
         return new ResponseEntity(new Mensaje("Se edito correctamente el usuario"), HttpStatus.OK);

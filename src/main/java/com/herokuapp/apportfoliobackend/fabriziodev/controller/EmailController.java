@@ -122,6 +122,8 @@ public class EmailController {
       user.setRoles(userOpt.get().getRoles());
       user.setCaducidadToken(null);
       user.setTokenPassword(null);
+      user.setVerifyPassword(userOpt.get().getVerifyPassword());
+      user.setActiveUser(userOpt.get().isActiveUser());
       usuarioService.save(user);
 
       return new ResponseEntity("Token no valido", HttpStatus.OK);

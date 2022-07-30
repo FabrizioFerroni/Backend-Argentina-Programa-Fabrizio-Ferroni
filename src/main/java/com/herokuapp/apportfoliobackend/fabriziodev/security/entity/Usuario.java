@@ -37,8 +37,14 @@ public class Usuario {
     private String password;
 
     private String tokenPassword;
-
     private LocalDateTime caducidadToken;
+
+    private String verifyPassword;
+
+    @NotNull
+    @Column(nullable = false)
+    private boolean activeUser;
+
     @NotNull
     @Column(nullable = false)
     @ManyToMany(fetch = FetchType.EAGER)
@@ -68,6 +74,7 @@ public class Usuario {
         this.imagenName = imagenName;
         this.createdAt = createdAt;
         this.editedAt = editedAt;
+
     }
 
     public int getId() {
@@ -173,5 +180,21 @@ public class Usuario {
 
     public void setEditedAt(LocalDateTime editedAt) {
         this.editedAt = editedAt;
+    }
+
+    public String getVerifyPassword() {
+        return verifyPassword;
+    }
+
+    public void setVerifyPassword(String verifyPassword) {
+        this.verifyPassword = verifyPassword;
+    }
+
+    public boolean isActiveUser() {
+        return activeUser;
+    }
+
+    public void setActiveUser(boolean activeUser) {
+        this.activeUser = activeUser;
     }
 }
