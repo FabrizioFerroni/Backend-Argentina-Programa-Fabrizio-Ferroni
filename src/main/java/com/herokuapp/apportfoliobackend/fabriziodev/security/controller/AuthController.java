@@ -271,7 +271,7 @@ public class AuthController {
         user.setCaducidadToken(LocalDateTime.now());
 
         usuarioService.save(user);
-        usuarioService.sendEmailregver(user);
+        usuarioService.ressendEmailreg(user);
 
         return new ResponseEntity(new Mensaje("Se mando código de verificacion nuevo"), HttpStatus.OK);
     }
