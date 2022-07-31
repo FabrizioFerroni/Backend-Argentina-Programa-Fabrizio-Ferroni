@@ -181,6 +181,37 @@ public class AuthController {
         return new ResponseEntity(new Mensaje("Usuario registrado con éxito. Por favor verifica tu casilla de correo para verificar la cuenta"), HttpStatus.CREATED);
     }
 
+    @GetMapping("getidwithtoken_user/{tokensub}")
+    @ResponseBody
+    @ApiIgnore
+    public ResponseEntity<Map<String, Object>> getidwithtoken(@PathVariable String tokensub) {
+        HashMap<String, Object> map = new HashMap<>();
+        Optional<Usuario> userOpt = usuarioService.getByVerifyPassword(tokensub);
+
+        if (!userOpt.isPresent()) {
+            return new ResponseEntity(new Mensaje("El token no existe o ya fue verificada la cuenta"), HttpStatus.NOT_FOUND);
+        }
+
+        /*Usuario user = new Usuario();
+        user.setId(userOpt.get().getId());*/
+
+        int id = userOpt.get().getId();
+        String username = userOpt.get().getNombreUsuario();
+        String token = userOpt.get().getVerifyPassword();
+        LocalDateTime creado = userOpt.get().getCaducidadToken();
+
+        if (!usuarioService.existsById(id)) {
+            return new ResponseEntity(new Mensaje("El id del token no existe"), HttpStatus.NOT_FOUND);
+        }
+
+        map.put("id_user", id);
+        map.put("username", username);
+        map.put("token", token);
+        map.put("creado", creado);
+
+        return new ResponseEntity(map, HttpStatus.OK);
+    }
+
 
     @GetMapping("/verifyuser/{token}")
     @ApiIgnore
@@ -206,12 +237,43 @@ public class AuthController {
         user.setTokenPassword(null);
         user.setVerifyPassword(null);
         user.setActiveUser(true);
-        user.setCaducidadToken(null);
 
         usuarioService.save(user);
         usuarioService.sendEmailregver(user);
 
         return new ResponseEntity(new Mensaje("Cuenta verificada con éxito"), HttpStatus.OK);
+    }
+
+    @GetMapping("/resendtoken/{token}")
+    @ApiIgnore
+    ResponseEntity<?> reactiveuser(@PathVariable String token) {
+        Optional<Usuario> userOpt = usuarioService.getByVerifyPassword(token);
+        if (!userOpt.isPresent()) {
+            return new ResponseEntity(new Mensaje("El token no existe o ya fue verificada la cuenta"), HttpStatus.NOT_FOUND);
+        }
+
+        Usuario user = new Usuario();
+        String randomCode = RandomString.make(64);
+        user.setId(userOpt.get().getId());
+        user.setNombre(userOpt.get().getNombre());
+        user.setApellido(userOpt.get().getApellido());
+        user.setEmail(userOpt.get().getEmail());
+        user.setNombreUsuario(userOpt.get().getNombreUsuario());
+        user.setPassword(userOpt.get().getPassword());
+        user.setAvatar(userOpt.get().getAvatar());
+        user.setCreatedAt(userOpt.get().getCreatedAt());
+        user.setEditedAt(userOpt.get().getEditedAt());
+        user.setImagenName(userOpt.get().getImagenName());
+        user.setRoles(userOpt.get().getRoles());
+        user.setTokenPassword(null);
+        user.setVerifyPassword(randomCode);
+        user.setActiveUser(false);
+        user.setCaducidadToken(LocalDateTime.now());
+
+        usuarioService.save(user);
+        usuarioService.sendEmailregver(user);
+
+        return new ResponseEntity(new Mensaje("Se mando código de verificacion nuevo"), HttpStatus.OK);
     }
 
     @PostMapping("/iniciarsesion")

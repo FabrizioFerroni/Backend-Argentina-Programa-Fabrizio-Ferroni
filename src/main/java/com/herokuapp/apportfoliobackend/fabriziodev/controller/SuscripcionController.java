@@ -13,6 +13,7 @@ import java.util.*;
 import javax.validation.Valid;
 
 import io.swagger.annotations.ApiOperation;
+import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -86,9 +87,8 @@ public class SuscripcionController {
 
         sus.setNombre(susDto.getNombre());
         sus.setEmail(susDto.getEmail());
-        UUID uuid = UUID.randomUUID();
-        String tokensus = uuid.toString();
-        sus.setTokenSus(tokensus);
+        String randomCode = RandomString.make(64);
+        sus.setTokenSus(randomCode);
         sus.setCreatedAt(LocalDateTime.now());
         sus.setEditedAt(LocalDateTime.now());
         String dayhoy = new SimpleDateFormat("dd/MM/yyyy").format(Calendar.getInstance().getTime());

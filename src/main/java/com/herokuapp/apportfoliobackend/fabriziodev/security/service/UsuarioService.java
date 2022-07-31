@@ -146,4 +146,30 @@ public class UsuarioService {
             throw new RuntimeException(e);
         }
     }
+
+    public void ressendEmailreg(Usuario dto) {
+        MimeMessage message = javaMailSender.createMimeMessage();
+        try {
+            String url = urlFront + "/iniciarsesion/verificarusuario/" + dto.getVerifyPassword();
+            String subject = dto.getNombre() + ", nuevo codigo de verificacion.";
+            MimeMessageHelper helper = new MimeMessageHelper(message, true);
+            Context context = new Context();
+            Map<String, Object> model = new HashMap<>();
+            model.put("nombre", dto.getNombre());
+            model.put("apellido", dto.getApellido());
+            model.put("url", url);
+            context.setVariables(model);
+            String htmlText = templateEngine.process("register-template", context);
+            helper.setFrom(new InternetAddress(mailFrom, name));
+            helper.setTo(dto.getEmail());
+            helper.setSubject(subject);
+            helper.setText(htmlText, true);
+
+            javaMailSender.send(message);
+        }catch (MessagingException e){
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

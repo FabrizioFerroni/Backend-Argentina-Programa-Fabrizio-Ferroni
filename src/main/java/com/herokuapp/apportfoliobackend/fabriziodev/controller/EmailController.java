@@ -8,6 +8,7 @@ import com.herokuapp.apportfoliobackend.fabriziodev.service.EmailService;
 import com.herokuapp.apportfoliobackend.fabriziodev.security.entity.Usuario;
 import com.herokuapp.apportfoliobackend.fabriziodev.security.service.UsuarioService;
 import io.swagger.annotations.ApiOperation;
+import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -54,10 +55,9 @@ public class EmailController {
         dto.setSubject(subject);
         String userNamelast = usuario.getNombre() + " " + usuario.getApellido();
         dto.setUserName(userNamelast);
-        UUID uuid = UUID.randomUUID();
-        String tokenPassword = uuid.toString();
-        dto.setTokenPassword(tokenPassword);
-        usuario.setTokenPassword(tokenPassword);
+        String randomCode = RandomString.make(64);
+        dto.setTokenPassword(randomCode);
+        usuario.setTokenPassword(randomCode);
 
         usuario.setCaducidadToken(LocalDateTime.now());
         dto.setCaducidadToken(LocalDateTime.now());
