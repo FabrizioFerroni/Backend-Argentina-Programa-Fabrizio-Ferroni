@@ -159,7 +159,7 @@ public class UsuarioService {
             model.put("apellido", dto.getApellido());
             model.put("url", url);
             context.setVariables(model);
-            String htmlText = templateEngine.process("register-template", context);
+            String htmlText = templateEngine.process("re-register-template", context);
             helper.setFrom(new InternetAddress(mailFrom, name));
             helper.setTo(dto.getEmail());
             helper.setSubject(subject);
